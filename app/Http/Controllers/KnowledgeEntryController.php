@@ -10,9 +10,13 @@ class KnowledgeEntryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index(Request $request) {
+        $knowledgeEntries = $request->user()
+            ->knowledgeEntries()
+            ->latest()
+            ->get();
+
+        return view('knowledge.index', compact('knowledgeEntries'));
     }
 
     /**
@@ -42,9 +46,14 @@ class KnowledgeEntryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, KnowledgeEntry $knowledgeEntry)
     {
-        //
+        abort_unless(
+            $knowledgeEntry->user_id === $request->user()->id,
+            403
+        );
+
+        return view('knowledge.show', compact('knowledgeEntry'));
     }
 
     /**

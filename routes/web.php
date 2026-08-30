@@ -25,10 +25,15 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/knowledge', [KnowledgeEntryController::class, 'index'])
+        ->name('knowledge.index');
     Route::get('/knowledge/create', [KnowledgeEntryController::class, 'create'])
-    ->name('knowledge.create');
+        ->name('knowledge.create');
     Route::post('/knowledge', [KnowledgeEntryController::class, 'store'])
         ->name('knowledge.store');
+    Route::get('/knowledge/{knowledgeEntry}', [KnowledgeEntryController::class, 'show'])
+        ->name('knowledge.show');
+        
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

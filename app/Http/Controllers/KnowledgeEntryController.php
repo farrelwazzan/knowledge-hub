@@ -59,17 +59,35 @@ class KnowledgeEntryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
+    public function edit(Request $request, KnowledgeEntry $knowledgeEntry) {
+        abort_unless(
+            $knowledgeEntry->user_id === $request->user()->id,
+            403
+        );
+
+        return view('knowledge.edit', compact('knowledgeEntry'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, KnowledgeEntry $knowledgeEntry) {
+        abort_unless(
+            $knowledgeEntry->user_id === $request->user()->id,
+            403
+        );
+
+        $validated = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'source_url' => ['nullable', 'url'],
+            'notes' => ['nullable', 'string'],
+        ]);
+
+        $knowledgeEntry->update($validated);
+
+        return redirect()
+            ->route('knowledge.show', $knowledgeEntry)
+            ->with('success', 'Knowledge updated successfully.');
     }
 
     /**

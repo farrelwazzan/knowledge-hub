@@ -31,6 +31,10 @@ Route::middleware('auth')->group(function () {
         ->name('knowledge.create');
     Route::post('/knowledge', [KnowledgeEntryController::class, 'store'])
         ->name('knowledge.store');
+    Route::get('/knowledge/{knowledgeEntry}/edit', [KnowledgeEntryController::class, 'edit'])
+        ->name('knowledge.edit');
+    Route::patch('/knowledge/{knowledgeEntry}', [KnowledgeEntryController::class, 'update'])
+        ->name('knowledge.update');
     Route::get('/knowledge/{knowledgeEntry}', [KnowledgeEntryController::class, 'show'])
         ->name('knowledge.show');
         

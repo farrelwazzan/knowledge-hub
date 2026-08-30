@@ -46,11 +46,14 @@
 
                 @endif
 
-                <div class="mt-8">
-                    <a
-                        href="{{ route('knowledge.index') }}"
-                        class="text-gray-600 hover:underline"
-                    >
+                <div class="mt-8 flex items-center gap-4">
+                    <a  href="{{ route('knowledge.edit', $knowledgeEntry) }}"
+                        class="text-blue-600 hover:underline" >
+                        Edit Knowledge
+                    </a>
+
+                    <a  href="{{ route('knowledge.index') }}"
+                        class="text-gray-600 hover:underline" >
                         ← Back to My Knowledge
                     </a>
                 </div>

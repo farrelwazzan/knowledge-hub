@@ -7,20 +7,15 @@
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
-
                 <h1 class="text-2xl font-semibold text-gray-900">
                     {{ $knowledgeEntry->title }}
                 </h1>
-
                 @if ($knowledgeEntry->source_url)
-
                     <div class="mt-6">
                         <h2 class="font-semibold text-gray-900">
                             Source
                         </h2>
-
                         <a
                             href="{{ $knowledgeEntry->source_url }}"
                             target="_blank"
@@ -29,37 +24,40 @@
                             {{ $knowledgeEntry->source_url }}
                         </a>
                     </div>
-
                 @endif
-
                 @if ($knowledgeEntry->notes)
-
                     <div class="mt-6">
                         <h2 class="font-semibold text-gray-900">
                             Personal Notes
                         </h2>
-
                         <p class="mt-2 text-gray-700 whitespace-pre-line">
                             {{ $knowledgeEntry->notes }}
                         </p>
                     </div>
-
                 @endif
-
                 <div class="mt-8 flex items-center gap-4">
                     <a  href="{{ route('knowledge.edit', $knowledgeEntry) }}"
                         class="text-blue-600 hover:underline" >
                         Edit Knowledge
                     </a>
-
+                    <form
+                        method="POST"
+                        action="{{ route('knowledge.destroy', $knowledgeEntry) }}"
+                        onsubmit="return confirm('Are you sure you want to delete this knowledge?')"
+                    >
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="text-red-600 hover:underline" >
+                            Delete Knowledge
+                        </button>
+                    </form>
                     <a  href="{{ route('knowledge.index') }}"
                         class="text-gray-600 hover:underline" >
                         ← Back to My Knowledge
                     </a>
                 </div>
-
             </div>
-
         </div>
     </div>
 </x-app-layout>

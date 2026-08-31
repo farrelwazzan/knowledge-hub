@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
         ->name('knowledge.edit');
     Route::patch('/knowledge/{knowledgeEntry}', [KnowledgeEntryController::class, 'update'])
         ->name('knowledge.update');
+    Route::delete('/knowledge/{knowledgeEntry}', [KnowledgeEntryController::class, 'destroy'])
+        ->name('knowledge.destroy');
     Route::get('/knowledge/{knowledgeEntry}', [KnowledgeEntryController::class, 'show'])
         ->name('knowledge.show');
         

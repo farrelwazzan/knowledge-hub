@@ -42,7 +42,6 @@ class KnowledgeEntryController extends Controller
             ->route('dashboard')
             ->with('success', 'Knowledge added successfully.');
     }
-
     /**
      * Display the specified resource.
      */
@@ -52,7 +51,6 @@ class KnowledgeEntryController extends Controller
             $knowledgeEntry->user_id === $request->user()->id,
             403
         );
-
         return view('knowledge.show', compact('knowledgeEntry'));
     }
 
@@ -64,7 +62,6 @@ class KnowledgeEntryController extends Controller
             $knowledgeEntry->user_id === $request->user()->id,
             403
         );
-
         return view('knowledge.edit', compact('knowledgeEntry'));
     }
 
@@ -84,7 +81,6 @@ class KnowledgeEntryController extends Controller
         ]);
 
         $knowledgeEntry->update($validated);
-
         return redirect()
             ->route('knowledge.show', $knowledgeEntry)
             ->with('success', 'Knowledge updated successfully.');
@@ -93,8 +89,15 @@ class KnowledgeEntryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy(Request $request, KnowledgeEntry $knowledgeEntry) {
+        abort_unless(
+            $knowledgeEntry->user_id === $request->user()->id,
+            403
+        );
+
+        $knowledgeEntry->delete();
+        return redirect()
+            ->route('knowledge.index')
+            ->with('success', 'Knowledge deleted successfully.');
     }
 }

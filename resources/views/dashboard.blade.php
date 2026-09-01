@@ -46,12 +46,23 @@
                     </p>
                 </div>
 
-                <a
-                    href="{{ route('knowledge.create') }}"
-                    class="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700"
-                >
-                    + Add Knowledge
-                </a>
+                <div class="flex items-center gap-3">
+
+                    <a
+                        href="{{ route('knowledge.index') }}"
+                        class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100"
+                    >
+                        View All Knowledge
+                    </a>
+
+                    <a
+                        href="{{ route('knowledge.create') }}"
+                        class="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700"
+                    >
+                        + Add Knowledge
+                    </a>
+
+                </div>
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -67,9 +78,10 @@
 
                             <div class="border rounded-lg p-4">
 
-                                <h4 class="text-lg font-semibold text-gray-900">
+                                <a  href="{{ route('knowledge.show', $knowledgeEntry) }}"
+                                    class="text-lg font-semibold text-gray-900 hover:underline" >
                                     {{ $knowledgeEntry->title }}
-                                </h4>
+                                </a>
 
                                 @if ($knowledgeEntry->source_url)
 

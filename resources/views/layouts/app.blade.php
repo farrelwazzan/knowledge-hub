@@ -23,8 +23,7 @@
 
             <!-- Main Area -->
             <div class="flex-1">
-
-                @include('layouts.navigation')
+                <x-top-header />
 
                 <!-- Page Heading -->
                 @if (isset($header))

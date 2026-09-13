@@ -1,38 +1,50 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            My Knowledge
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+    <div class="mx-auto max-w-6xl px-6 py-8">
 
-                <h2 class="text-xl font-semibold mb-6">
-                    All Knowledge
-                </h2>
+        {{-- Page Header --}}
+        <x-page-header
+            title="Library"
+            description="All your saved knowledge in one place."
+        >
+            <x-slot:action>
+                <x-button href="{{ route('knowledge.create') }}">
+                    + Add Knowledge
+                </x-button>
+            </x-slot:action>
+        </x-page-header>
 
-                @forelse ($knowledgeEntries as $knowledgeEntry)
-                    <div class="border-b py-4 flex items-center justify-between">
-                        <h3 class="font-semibold">
-                            {{ $knowledgeEntry->title }}
-                        </h3>
-                        <a href="{{ route('knowledge.show', $knowledgeEntry) }}"
-                            class="text-blue-600 hover:underline" >
-                            View Knowledge →
-                        </a>
-                    </div>
+        {{-- Knowledge List --}}
+        @if ($knowledgeEntries->isEmpty())
 
-                @empty
+            <x-card class="p-8">
+                <div class="py-12 text-center">
+                    <h2 class="text-lg font-semibold text-gray-800">
+                        Your Library is Empty
+                    </h2>
 
-                    <p class="text-gray-600">
-                        You have not saved any knowledge yet.
+                    <p class="mt-2 text-sm text-gray-500">
+                        Start saving knowledge that you want to remember.
                     </p>
 
-                @endforelse
+                    <div class="mt-5">
+                        <x-button href="{{ route('knowledge.create') }}">
+                            + Add Knowledge
+                        </x-button>
+                    </div>
+                </div>
+            </x-card>
 
+        @else
+
+            <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                @foreach ($knowledgeEntries as $knowledge)
+                    <x-knowledge-card :knowledge="$knowledge" />
+                @endforeach
             </div>
-        </div>
+
+        @endif
+
     </div>
+
 </x-app-layout>

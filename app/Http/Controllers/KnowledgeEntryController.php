@@ -39,7 +39,7 @@ class KnowledgeEntryController extends Controller
         ]);
         $request->user()->knowledgeEntries()->create($validated);
         return redirect()
-            ->route('dashboard')
+            ->back()
             ->with('success', 'Knowledge added successfully.');
     }
     /**
@@ -97,7 +97,7 @@ class KnowledgeEntryController extends Controller
 
         $knowledgeEntry->delete();
         return redirect()
-            ->route('knowledge.index')
+            ->back()
             ->with('success', 'Knowledge deleted successfully.');
     }
 }

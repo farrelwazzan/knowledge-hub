@@ -1,22 +1,35 @@
-<header class="h-16 border-b border-gray-200 px-6">
+@php
+    $page = match (true) {
+        request()->routeIs('dashboard') => 'Dashboard',
+        request()->routeIs('knowledge.index') => 'Library',
+        request()->routeIs('knowledge.create') => 'Add Knowledge',
+        request()->routeIs('knowledge.show') => 'Knowledge',
+        request()->routeIs('knowledge.edit') => 'Edit Knowledge',
+        default => 'Workspace',
+    };
+@endphp
+
+<header class="relative h-16 border-b border-[#D5D6E2] px-4 sm:px-6">
     <div class="relative h-full flex items-center">
 
         {{-- Page Context --}}
         <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-400">
+            <span class="hidden lg:inline text-gray-500">
                 Workspace
             </span>
-            <span class="text-sm text-gray-300">
+
+            <span class="hidden lg:inline text-gray-400">
                 /
             </span>
-            <span class="text-sm font-medium text-gray-700">
-                Library
+
+            <span class="font-medium text-[#191923]">
+                {{ $page }}
             </span>
         </div>
 
         {{-- Search --}}
-        <div class="absolute left-1/2 -translate-x-1/2 w-[440px]">
-            <div class="h-10 flex items-center rounded-lg border border-gray-300 bg-white px-3 transition-colors focus-within:border-[#191923] focus-within:ring-2 focus-within:ring-[#191923]/10">
+        <div class="absolute left-1/2 hidden w-full max-w-[440px] -translate-x-1/2 lg:block">
+            <div class="h-10 flex items-center rounded-lg border border-[#D5D6E2] bg-white px-3 transition-colors focus-within:border-[#0E79B2]">
 
                 {{-- Search Icon --}}
                 <svg
@@ -56,7 +69,7 @@
                 type="button"
                 @click="open = !open"
                 :aria-expanded="open"
-                class="ml-auto flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-gray-100"
+                class="flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-[#ECECF2]"
             >
                 {{-- Avatar --}}
                 <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#0E79B2]">
@@ -66,7 +79,7 @@
                 </div>
 
                 {{-- Username --}}
-                <span class="text-sm font-medium text-gray-700">
+                <span class="hidden sm:inline text-sm font-medium text-[#191923]">
                     {{ Auth::user()->name }}
                 </span>
 
@@ -90,7 +103,7 @@
             {{-- Account Dropdown --}}
             <div 
                 x-show="open"
-                class="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-gray-200 bg-white p-2 shadow-lg"
+                class="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-[#D5D6E2] bg-white p-2 shadow-sm"
             >
                 
                 {{-- Account Information --}}
@@ -115,12 +128,12 @@
                     </div>
 
                 </div>
-                <div class="my-1 border-t border-gray-300"></div>
+                <div class="my-1 border-t border-[#D5D6E2]"></div>
 
                 {{-- Menu --}}
                 <a
                     href="#"
-                    class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-[#ECECF2]"
                 >
                     {{-- Profile Icon --}}
                     <svg
@@ -143,7 +156,7 @@
 
                 <a
                     href="#"
-                    class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-[#ECECF2]"
                 >
                     {{-- Settings Icon --}}
                     <svg
@@ -169,7 +182,7 @@
                     <span>Settings</span>
                 </a>
 
-                <div class="my-1 border-t border-gray-300"></div>
+                <div class="my-1 border-t border-[#D5D6E2]"></div>
 
                 {{-- Logout --}}
                 <form method="POST" action="{{ route('logout') }}">
@@ -177,7 +190,7 @@
 
                     <button
                         type="submit"
-                        class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                        class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-gray-700 hover:bg-[#ECECF2]"
                     >
                         {{-- Logout Icon --}}
                         <svg

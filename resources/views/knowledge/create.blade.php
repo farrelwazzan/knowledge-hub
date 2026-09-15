@@ -1,69 +1,152 @@
+@php
+    $cancelRoute = request('from') === 'library'
+        ? route('knowledge.index')
+        : route('dashboard');
+@endphp
+
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Add Knowledge
-        </h2>
-    </x-slot>
+    <div class="min-h-screen bg-[#ececf2] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <div class="mx-auto w-full max-w-2xl">
 
-    <div class="py-12">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            {{-- Page Header --}}
+            <x-page-header
+                title="Add Knowledge"
+                description="Save something worth remembering."
+            />
 
-                <form method="POST" action="{{ route('knowledge.store') }}">
-                    @csrf
+            {{-- Form --}}
+            <div class="mt-8">
+                <x-card class="p-6 sm:p-8">
 
-                    <div>
-                        <label for="title">Title</label>
-
+                    <form     
+                        method="POST"
+                        action="{{ route('knowledge.store') }}"
+                        x-data="{ submitting: false }"
+                        @submit="submitting = true"
+                        >
+                        @csrf
+                        
                         <input
-                            id="title"
-                            name="title"
-                            type="text"
-                            value="{{ old('title') }}"
+                            type="hidden"
+                            name="from"
+                            value="{{ request('from', 'dashboard') }}"
                         >
 
-                        @error('title')
-                            <p>{{ $message }}</p>
-                        @enderror
-                    </div>
+                        {{-- Title --}}
+                        <div>
+                            <label
+                                for="title"
+                                class="block text-sm font-medium text-[#191923]"
+                            >
+                                Title
+                            </label>
 
-                    <div class="mt-4">
-                        <label for="source_url">Source URL</label>
+                            <input
+                                id="title"
+                                name="title"
+                                type="text"
+                                value="{{ old('title') }}"
+                                placeholder="Enter a title..."
+                                class="mt-2 block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-[#191923] placeholder-[#8488AC] outline-none transition-colors
+                                    {{ $errors->has('title')
+                                        ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+                                        : 'border-[#D5D6E2] focus:border-[#0E79B2] focus:ring-[#0E79B2]/20'
+                                    }}"
+                                >
 
-                        <input
-                            id="source_url"
-                            name="source_url"
-                            type="url"
-                            value="{{ old('source_url') }}"
-                        >
+                            @error('title')
+                                <p class="mt-1.5 text-sm text-red-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
 
-                        @error('source_url')
-                            <p>{{ $message }}</p>
-                        @enderror
-                    </div>
+                        {{-- Source URL --}}
+                        <div class="mt-5">
+                            <label
+                                for="source_url"
+                                class="block text-sm font-medium text-[#191923]"
+                            >
+                                Source URL
+                            </label>
 
-                    <div class="mt-4">
-                        <label for="notes">Notes</label>
+                            <input
+                                id="source_url"
+                                name="source_url"
+                                type="url"
+                                value="{{ old('source_url') }}"
+                                placeholder="Paste the source URL..."
+                                class="mt-2 block w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-[#191923] placeholder-[#8488AC] outline-none transition-colors
+                                    {{ $errors->has('source_url')
+                                        ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+                                        : 'border-[#D5D6E2] focus:border-[#0E79B2] focus:ring-[#0E79B2]/20'
+                                    }}"
+                            >
 
-                        <textarea
-                            id="notes"
-                            name="notes"
-                        >{{ old('notes') }}</textarea>
+                            @error('source_url')
+                                <p class="mt-1.5 text-sm text-red-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
 
-                        @error('notes')
-                            <p>{{ $message }}</p>
-                        @enderror
-                    </div>
+                        {{-- Notes --}}
+                        <div class="mt-5">
+                            <label
+                                for="notes"
+                                class="block text-sm font-medium text-[#191923]"
+                            >
+                                Notes
+                            </label>
 
-                    <div class="mt-6">
-                        <button type="submit">
-                            Save Knowledge
-                        </button>
-                    </div>
+                            <textarea
+                                id="notes"
+                                name="notes"
+                                rows="6"
+                                placeholder="Add your personal notes or context..."
+                                class="mt-2 block w-full resize-y rounded-lg border bg-white px-3 py-2.5 text-sm leading-6 text-[#191923] placeholder-[#8488AC] outline-none transition-colors
+                                    {{ $errors->has('notes')
+                                        ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+                                        : 'border-[#D5D6E2] focus:border-[#0E79B2] focus:ring-[#0E79B2]/20'
+                                    }}"
+                            >{{ old('notes') }}</textarea>
 
-                </form>
+                            @error('notes')
+                                <p class="mt-1.5 text-sm text-red-600">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
 
+                        {{-- Actions --}}
+                        <div class="mt-6 flex items-center justify-end gap-3">
+                            <x-button
+                                variant="secondary"
+                                href="{{ $cancelRoute }}"
+                            >
+                                Cancel
+                            </x-button>
+
+                            <x-button
+                                type="submit"
+                                x-bind:disabled="submitting"
+                            >
+                                <span x-show="!submitting">
+                                    Save Knowledge
+                                </span>
+
+                                <span x-show="submitting">
+                                    Saving...
+                                </span>
+                            </x-button>
+                        </div>
+
+                    </form>
+
+                </x-card>
             </div>
+
         </div>
     </div>
+
 </x-app-layout>

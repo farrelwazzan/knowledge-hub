@@ -17,7 +17,10 @@
 >
 
 <a
-    href="{{ route('knowledge.show', $knowledge) }}"
+    href="{{ route('knowledge.show', [
+        'knowledgeEntry' => $knowledge,
+        'from' => request()->routeIs('dashboard') ? 'dashboard' : 'library',
+    ]) }}"
     class="absolute inset-0 z-10 rounded-xl"
     aria-label="View {{ $knowledge->title }}"
 ></a>
@@ -102,7 +105,7 @@
                 type="button"
                 @click="open = !open"
                 @click.outside="open = false"
-                class="flex h-8 w-8 items-center justify-center rounded-lg border border-[#D5D6E2] bg-white text-[#656992] transition-colors hover:border-[#AFB1CA] hover:bg-[#F6F6F9] hover:text-[#191923] focus:outline-none focus:ring-1 focus:ring-[#D5D6E2]"
+                class="flex h-8 w-8 items-center justify-center rounded-lg border border-[#D5D6E2]/0 bg-white text-[#656992] transition-colors hover:border-[#AFB1CA] hover:bg-[#F6F6F9] hover:text-[#191923] focus:outline-none focus:ring-1 focus:ring-[#D5D6E2]"
                 aria-label="Knowledge actions"
             >
                 <svg
@@ -125,7 +128,10 @@
             >
                 {{-- Edit --}}
                 <a
-                    href="{{ route('knowledge.edit', $knowledge) }}"
+                    href="{{ route('knowledge.edit', [
+                        'knowledgeEntry' => $knowledge,
+                        'from' => request()->routeIs('dashboard') ? 'dashboard' : 'library',
+                    ]) }}"
                     class="block px-3 py-2 text-sm text-[#191923] hover:bg-[#F6F6F9]"
                 >
                     Edit
@@ -138,6 +144,12 @@
                 >
                     @csrf
                     @method('DELETE')
+
+                    <input
+                        type="hidden"
+                        name="from"
+                        value="{{ request()->routeIs('dashboard') ? 'dashboard' : 'library' }}"
+                    >
 
                     <button
                         type="submit"
@@ -153,7 +165,7 @@
     </div>
 
     {{-- Title --}}
-    <h3 class="mt-4 line-clamp-2 text-base font-semibold text-[#191923]">
+    <h3 class="mt-4 line-clamp-2 text-lg font-semibold leading-6 text-[#191923]">
         {{ $knowledge->title }}
     </h3>
 

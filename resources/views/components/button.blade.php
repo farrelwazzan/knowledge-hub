@@ -14,23 +14,25 @@
         focus:outline-none
         focus:ring-2
         focus:ring-offset-2
+        disabled:cursor-not-allowed
+        disabled:opacity-60
     ';
 
     $variants = [
         'primary' => '
             bg-[#0E79B2]
             text-white
-            hover:bg-[#0b6899]
+            hover:bg-[#124868]
             focus:ring-[#0E79B2]
         ',
 
         'secondary' => '
-            bg-[#FBFEF9]
-            text-[#191923]
-            border border-[#AFB1CA]
-            hover:bg-[#F6F6F9]
-            hover:border-[#AFB1CA]
-            focus:ring-[#656992]
+            bg-white
+            text-[#0E79B2]
+            border border-[#0E79B2]
+            hover:bg-[#0E79B2]/15
+            hover:border-[#0E79B2]
+            focus:ring-[#0E79B2]
         ',
 
         'danger' => '
